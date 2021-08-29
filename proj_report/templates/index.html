@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> Fun proj</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- bootstrap files-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../static/index.css">
+</head>
+
+<body>
+    <div id="content">
+        <nav class="navbar fixed-top navbar-expand-sm">
+            <ul class="navbar-nav nav-list">
+                <li class="nav-item">
+                    <a href="/">Data About Data</a>
+                </li>
+            </ul>
+
+        </nav>
+        <div class='content-body'>
+            <img src="../static/main-1.gif" width="635px" height="550px" />
+
+            <div class="form_class">
+                <div class="blob_class">
+                    <h2 id="content-explain" style="color: #0c1a79;"></h2>
+                </div>
+
+                <div id="form-file">
+                    <form action='/' method="POST" enctype="multipart/form-data">
+                        <input id="upld_file" name="file" type='file' accept=".csv, text/csv" />
+                        <button type="submit" class="btn btn-outline-success">Upload</button>
+                        <p id='error-p'>{{ error_msg }}</p>
+                    </form>
+                </div>
+
+
+                <div id="analys_btn" class="analys_btn">
+                    {% if flag %}
+                    <a onclick="start_analysis()">
+                        Analyze
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+                        </svg>
+                    </a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/index.js"></script>
+
+    <div id="loader">
+        <!--<h1 id="loader-content" style="color: #051e50;"></h1>
+        <img src="../static/loading-1.gif" />-->
+    </div>
+</body>
+
+</html>

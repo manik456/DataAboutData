@@ -1,0 +1,88 @@
+body{
+    background-color:#ffff;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.5;
+    
+}
+.navbar{
+    background-color: #0c1a79;
+    height: 50px;
+}
+
+.nav-list{
+    margin-left:auto;
+    margin-right: 40px;
+}
+.nav-list a{
+    color: white;
+    font-size: 1.3rem;
+    text-decoration: none;
+}
+.nav-list a:hover,.nav-list a:focus{
+    color: white;
+    text-decoration: none;
+}
+.content-body{
+    margin: 90px 30px 10px 30px;
+    display: flex;
+    align-items: center;
+    
+}
+.blob_class{
+    width:550px;
+    display: inline-block;
+    margin:0 5% 30px 35px ;
+    text-align: center;
+}
+.form_class{
+    margin:auto;
+}
+
+#form-file{
+    border: 5px dashed #2e3a89;
+    padding: 30px;
+    border-radius: 15px;
+    font-size: large;
+    text-align: center;
+}
+
+#error-p{
+    color: red;
+}
+
+.analys_btn{
+    text-align: center;
+    margin-top:50px;
+    display: flex;
+}
+.analys_btn a{
+    color: white;
+    text-decoration: none;
+    margin: auto;                   /* centre content*/
+    font-size: large;
+    padding: 10px 13px 13px 10px;
+    background-color: #0c1a79;
+    transition: transform .2s;       /*delaying transition*/
+}
+
+.analys_btn a:hover{
+    transform: scale(1.07);
+}
+
+.analys_btn a:not([href]):not([class]), .analys_btn a:not([href]):not([class]):hover{       /*when anchor tag has no href assign white color*/
+    color: white;
+    cursor: pointer;
+}
+
+.disabled{
+    pointer-events: none;              /* disable link if no data is uploaded.*/
+}
+
+#loader{                    /* display image in center.*/
+    display: none;
+    position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%) scale(0.7);
+}

@@ -6,17 +6,13 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 from flask import Flask, render_template,request,redirect
-from sklearn.preprocessing import LabelEncoder
-from sklearn.ensemble import RandomForestClassifier as RFC
 from seaborn import heatmap, histplot, despine, relplot, catplot, countplot
 
 
-#from seaborn.distributions import distplot
 matplotlib.use('Agg')
 
 app = Flask(__name__)
 
-#df = pd.read_csv('Retention_Dataset.csv')
 global data_df
 data_df = {}
 # Retention_Dataset
@@ -293,21 +289,6 @@ def plot_custom():
 
 
     return render_template('custom-plot.html',cols=cols_wo_unq,data_df=data_df, rel_plot_types=rel_plot_types, dist_plot_types=dist_plot_types)
-
-
-'''@app.route('/feature_imp',methods = ['GET','POST'])
-def feature_importance():
-    df = data_df['data']
-
-    # convert categorical to Numerical
-    for i in df.columns:
-        if df[i].dtype == 'object':
-            df[i] = LabelEncoder().fit_transform(df[i])
-
-    if request.method == 'POST':
-        target_var = request.form['output_var']
-    
-    return render_template('feature_imp.html')'''
 
 if __name__ == '__main__':
     app.run(debug=True)

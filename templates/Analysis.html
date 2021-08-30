@@ -280,9 +280,31 @@
             </div>
             <div class="tab-content corr_fig">
                 {% if corr_data|length!=0 %}
-                <img id="pear_fig" class="tab-pane fade show active" src="data:image/svg;base64, {{ corr_data[0] }}">
-                <img id="spear_fig" class="tab-pane fade" src="data:image/svg;base64, {{ corr_data[1] }}">
-                <img id="kend_fig" class="tab-pane fade" src="data:image/svg;base64, {{ corr_data[2] }}">
+                <div id="pear_fig" class="tab-pane fade show active">
+                    <p>
+                        Pearson's correlation coefficient is the covariance of the two variables divided by the product of their standard deviations
+                    <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient" target="_blank">...</a>
+                </p>
+                    <img  src="data:image/svg;base64, {{ corr_data[0] }}">
+                </div>
+
+                <div id="spear_fig" class="tab-pane fade">
+                    <p> 
+                        Spearman's correlation evaluates monotonic relationships (whether linear or not).  while Pearson's correlation evaluates linear relationships
+                        <a href="https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient" target="_blank">...</a>
+                    </p>
+                    <img  src="data:image/svg;base64, {{ corr_data[1] }}">
+                </div>
+                
+                <div id="kend_fig" class="tab-pane fade">
+                    <p>
+                        Kendall's correlation uses the concept of concordant & discordant pairs
+                        <a href="https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient" target="_blank">...</a>
+                    </p>
+                    <img src="data:image/svg;base64, {{ corr_data[2] }}">
+                </div>
+                
+                
 
                 {% else %}
                 <h4 style="text-align:center;margin:20px">Dataset doesn't have any Numerical Columns...</h4>

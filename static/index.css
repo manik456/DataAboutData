@@ -15,7 +15,7 @@ body{
 }
 .nav-list a{
     color: white;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     text-decoration: none;
 }
 .nav-list a:hover,.nav-list a:focus{
@@ -39,7 +39,7 @@ body{
 }
 
 #form-file{
-    border: 5px dashed #2e3a89;
+    border: 5px dashed #00008b;
     padding: 30px;
     border-radius: 15px;
     font-size: large;

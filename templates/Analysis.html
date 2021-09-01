@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title> DAD </title>
+    <title> Fun proj</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- passing dataframe-->
@@ -38,7 +38,7 @@
 
 <body>
     <div class="loader">
-        
+
     </div>
 
     <nav class="navbar fixed-top navbar-expand-sm">
@@ -55,11 +55,12 @@
 
             <li class="nav-item">
                 <div class="dropdown">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-split" href='javascript:;' data-bs-toggle="dropdown">Features</a>
+                    <a class="nav-link dropdown-toggle dropdown-toggle-split" href='javascript:;'
+                        data-bs-toggle="dropdown">Features</a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         {% for col in df_cols %}
                         <li>
-                            <a class="dropdown-item" href='javascript:;'onclick="scroll_to('{{ col }}'+'_id')">
+                            <a class="dropdown-item" href='javascript:;' onclick="scroll_to('{{ col }}'+'_id')">
                                 {{ col }}
                             </a>
                         </li>
@@ -244,7 +245,7 @@
                         </div>
                         {% if df_cols[i] in num_col and df_cols[i] not in u_col %}
                         <div id="figure_{{ i }}" class="figure_div">
-                            <img src="data:image/svg;base64, {{ dist_data[df_cols[i]] }}" width="375px" height="250px">
+                            <img src="data:image/png;base64,{{ dist_data[df_cols[i]] }}" width="375px" height="250px">
                         </div>
                         {% else %}
                         <div id="figure_{{ i }}" class="figure_div">
@@ -279,32 +280,36 @@
 
             </div>
             <div class="tab-content corr_fig">
-                {% if corr_data|length!=0 %}
+                {% if corr_data|length %}
                 <div id="pear_fig" class="tab-pane fade show active">
                     <p>
-                        Pearson's correlation coefficient is the covariance of the two variables divided by the product of their standard deviations
-                    <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient" target="_blank">...</a>
-                </p>
-                    <img  src="data:image/svg;base64, {{ corr_data[0] }}">
+                        Pearson's correlation coefficient is the covariance of the two variables divided by the product
+                        of their standard deviations
+                        <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient" target="_blank">...</a>
+                    </p>
+                    <img src="data:image/png;base64,{{ corr_data[0] }}">
                 </div>
 
                 <div id="spear_fig" class="tab-pane fade">
-                    <p> 
-                        Spearman's correlation evaluates monotonic relationships (whether linear or not).  while Pearson's correlation evaluates linear relationships
-                        <a href="https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient" target="_blank">...</a>
+                    <p>
+                        Spearman's correlation evaluates monotonic relationships (whether linear or not). while
+                        Pearson's correlation evaluates linear relationships
+                        <a href="https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient"
+                            target="_blank">...</a>
                     </p>
-                    <img  src="data:image/svg;base64, {{ corr_data[1] }}">
+                    <img src="data:image/png;base64,{{ corr_data[1] }}">
                 </div>
-                
+
                 <div id="kend_fig" class="tab-pane fade">
                     <p>
                         Kendall's correlation uses the concept of concordant & discordant pairs
-                        <a href="https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient" target="_blank">...</a>
+                        <a href="https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient"
+                            target="_blank">...</a>
                     </p>
-                    <img src="data:image/svg;base64, {{ corr_data[2] }}">
+                    <img src="data:image/png;base64,{{ corr_data[2] }}">
                 </div>
-                
-                
+
+
 
                 {% else %}
                 <h4 style="text-align:center;margin:20px">Dataset doesn't have any Numerical Columns...</h4>
@@ -312,12 +317,12 @@
             </div>
 
             <div class="custom-plt-lnk">
-                <a href="/Analysis/custom_plot">Create Custom Plots 
+                <a href="/Analysis/custom_plot">Create Custom Plots
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-arrow-right" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
-                </svg></a>
+                        class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+                    </svg></a>
             </div>
         </div>
 
@@ -346,7 +351,8 @@
                 class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                     d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
-            </svg></a>
+            </svg>
+        </a>
     </div>
     <script>
         var df_cols = "{{ df_cols }}";

@@ -1,20 +1,29 @@
 import io
+import os
+import shutil
 import base64
 from flask.helpers import url_for
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from flask import Flask, render_template,request,redirect
 from seaborn import heatmap, histplot, despine, relplot, catplot, countplot
+
+
+matplotlib.use('Agg')
 
 app = Flask(__name__)
 
 global data_df
 data_df = {}
-# Retention_Dataset
-# Clinton_Voting_Percent
+
+try:
+    os.mkdir('./static/temp/')
+except:
+    pass
+    
+
 
 def file_is_csv(filename):
     if filename[-3:] == 'csv':
@@ -61,67 +70,14 @@ def Analysis():
     except KeyError:
         return redirect(url_for('upload_file'))
 
-    df_cols, df_dim, cat_col, num_col, mis_val, mis_detail, u_col, cols_data = get_data(df)
+    df_cols, df_dim, cat_col, num_col, mis_val, mis_detail, u_col, cols_data = get_data(df)     #getting all analyzed data
     
-    '''df_cols = df.columns.tolist()
-    df_dim = df.shape   # shape
+    top_rows = df.iloc[:10].to_html(index=False)        # first 10 rows
 
-    cols_data = {i: {'type': '', 'sub_type': '', 'null_val': '', 'mini': '', 'maxi': '',
-                     'mean': '', 'median': '', 'mode': '', 'st_dev': '', 'vari': '', 'Quant': '', 'iqr': ''} for i in df_cols}
-
-    cat_col, num_col, u_col = [], [], []   # column types
-    for i in df.columns:
-
-        u_sum = len(pd.unique(df[i]))       # unique vales
-        if u_sum == df_dim[0]:
-            u_col.append(i)
-
-        if df[i].dtype == 'object':
-            cat_col.append(i)
-            cols_data[i]['type'] = 'Categorical'
-        else:
-            num_col.append(i)
-            cols_data[i]['type'] = 'Numerical'
-            cols_data[i]['mini'] = df[i].min()
-            cols_data[i]['maxi'] = df[i].max()
-            cols_data[i]['mean'] = round(df[i].mean(), 2)
-            cols_data[i]['median'] = df[i].median()
-            cols_data[i]['st_dev'] = round(df[i].std(), 2)
-
-            if i not in u_col:
-                cols_data[i]['vari'] = round(df[i].var(), 2)
-                cols_data[i]['Quant'] = [round(df[i].quantile(0.1), 3), round(df[i].quantile(0.7), 3)]
-                cols_data[i]['iqr'] = round((cols_data[i]['Quant'][1] - cols_data[i]['Quant'][0]),3)
-
-        cols_data[i]['sub_type'] = df[i].dtype.name
-
-        cols_data[i]['null_val'] = df[i].isna().sum()
-
-        if i not in u_col:                  # mode
-            # convert series to list and to st and replaceing "'".
-            cols_data[i]['mode'] = str(df[i].mode().tolist())[
-                1:-1].replace("'", '')
-
-    mis_val = df.isna().sum()  # missing values
-
-    mis_detail = [(df_cols[i], mis_val[i]) for i in range(
-        len(mis_val)) if mis_val[i] != 0]    # missing_val details
-
-    data_df['df_cols'] = df_cols
-    data_df['u_col'] = u_col
-    data_df['num_col'] = num_col
-    data_df['cat_col'] = cat_col
-    data_df['mis_detail'] = mis_detail'''
-
-    '''top_rows = []
-    for i in range(10):
-        top_rows.append(df.iloc[i:i+1].values.flatten().tolist())'''
-    top_rows = df.iloc[:10].to_html(index=False)
-
-    dist_data = plot_dist(df,num_col,u_col)
+    fig_dist = plot_dist(df,num_col,u_col)
     corr_data = plot_corr(df,num_col)
 
-    return render_template('Analysis.html', df=df.to_json(), df_cols=df_cols, top_rows=top_rows,rec_n=df_dim[0], col_n=df_dim[1], cat_col=cat_col, num_col=num_col, mis_val=mis_val, mis_detail=mis_detail, u_col=u_col, cols_data=cols_data, dist_data=dist_data, corr_data=corr_data)
+    return render_template('Analysis.html', df=df.to_json(), df_cols=df_cols, top_rows=top_rows,rec_n=df_dim[0], col_n=df_dim[1], cat_col=cat_col, num_col=num_col, mis_val=mis_val, mis_detail=mis_detail, u_col=u_col, cols_data=cols_data, dist_data=fig_dist, corr_data = corr_data)
 
 def get_data(df):
     df_cols = df.columns.tolist()
@@ -193,9 +149,7 @@ def plot_dist(df, num_col, u_col):
         fig_buf = io.BytesIO()
         plt.savefig(fig_buf, format='png', bbox_inches='tight',pad_inches=0)
         fig_dist_data[i]=base64.b64encode(fig_buf.getbuffer()).decode("ascii")
-
     return fig_dist_data
-
 
 def plot_corr(df,num_col):
 
@@ -226,25 +180,21 @@ def plot_corr(df,num_col):
             pear_buf = io.BytesIO()
             plt.savefig(pear_buf, format='png', bbox_inches='tight',pad_inches=0)
             fig_corr_data.append(base64.b64encode(pear_buf.getbuffer()).decode("ascii"))
-
     return fig_corr_data
 
 @app.route('/Analysis/custom_plot',methods=['GET', 'POST'])
 def plot_custom():
-
-    try:
-        df = data_df['data']
-    except:
-        return redirect(url_for('Analysis'))
-
 
     plt.close()
 
     cols_wo_unq = [i for i in data_df['df_cols'] if i not in data_df['u_col']]
     rel_plot_types = ['box','strip','scatter']
     dist_plot_types = ['box','violin','boxen','count','hist']
+    fig_data = 0
 
     if request.method == "POST":
+        df = data_df['data']
+        fig_data = 1
         details = request.form.to_dict(flat=False)
         #print('---------------->')
         #print(details)
@@ -261,6 +211,8 @@ def plot_custom():
         
             if len(df[x_col].unique()) >8:
                 plt.xticks(rotation=90)
+            
+            cols = x_col+y_col
                 
 
         else:
@@ -278,15 +230,21 @@ def plot_custom():
             
             if len(df[col_name].unique()) >8:
                 plt.xticks(rotation=90)
+            
+            cols = col_name
 
-        pear_buf = io.BytesIO()
-        plt.savefig(pear_buf, format='png', bbox_inches='tight')
-        fig_data = base64.b64encode(pear_buf.getbuffer()).decode("ascii")
+        #pear_buf = io.BytesIO()
+        plt.savefig('./static/temp/'+plot_type+'_'+cols+'.png', format='png', bbox_inches='tight')
+        #fig_data = base64.b64encode(pear_buf.getbuffer()).decode("ascii")
 
-        return render_template('custom-plot.html',cols=cols_wo_unq,data_df=data_df, rel_plot_types=rel_plot_types,dist_plot_types=dist_plot_types, fig_data = fig_data)
+        return render_template('custom-plot.html',cols=cols_wo_unq,data_df=data_df, rel_plot_types=rel_plot_types,dist_plot_types=dist_plot_types,fig_data = fig_data,col_name=cols, plot_type = plot_type)
 
 
-    return render_template('custom-plot.html',cols=cols_wo_unq,data_df=data_df, rel_plot_types=rel_plot_types, dist_plot_types=dist_plot_types)
+    return render_template('custom-plot.html',cols=cols_wo_unq,data_df=data_df, rel_plot_types=rel_plot_types, dist_plot_types=dist_plot_types,fig_data = fig_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
+    try:
+        shutil.rmtree('./static/temp')
+    except:
+        pass

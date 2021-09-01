@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> DAD </title>
+    <title> Fun proj</title>
 
     <!-- load jquery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -34,15 +34,29 @@
 
     <div class="content-body">
         <div>
+
             <div class="custom-plt-lnk">
                 <!--<a href="javascript:;" onclick="history.go(-1);">-->
-                    <a href="javascript:history.go(-1)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-                      </svg>
-                    Go Back
+                <a href="/Analysis" style="font-size: large;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                    </svg>
+                    Go to Analysis
                 </a>
             </div><br>
+
+            <!--<div class="custom-plt-lnk">
+                <a href="javascript:history.go(-1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                    </svg>
+                    Go Back
+                </a>
+            </div>--><br>
             <h2>Looking...</h2>
             <div class="plt-main">
                 <div>
@@ -70,8 +84,8 @@
                                 data-bs-dismiss="modal">X</button>
                         </div>
                         <div class="modal-body">
-                            <form id="rel-form" action="/Analysis/custom_plot" onsubmit="return rel_valid()" method="post"
-                                enctype="multipart/form-data">
+                            <form id="rel-form" action="/Analysis/custom_plot" onsubmit="return rel_valid()"
+                                method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="plot_type" value="rel_plot">
                                 <div>
                                     <div class="form-group row">
@@ -129,8 +143,8 @@
                                 data-bs-dismiss="modal">X</button>
                         </div>
                         <div class="modal-body">
-                            <form id="dist-form" action="/Analysis/custom_plot" onsubmit="return dist_valid()" method="post"
-                                enctype="multipart/form-data">
+                            <form id="dist-form" action="/Analysis/custom_plot" onsubmit="return dist_valid()"
+                                method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="plot_type" value="dist_plot">
                                 <div>
                                     <div class="form-group row">
@@ -169,12 +183,28 @@
         </div>
 
 
+        <a href="javascript:history.go(-1)" id="direct_btn" role="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor"
+                class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+            </svg>
+        </a>
+        <a href="javascript:history.go(1)" id="direct_btn" role="button" style="float: right;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor"
+                class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+            </svg>
+        </a>
+
 
         {% if fig_data %}
         <div class="shadow-sm p-3 mb-5 bg-body rounded cust_plot">
-            <img src="data:image/svg;base64, {{ fig_data }}">
+            <img src="../static/temp/{{ plot_type }}_{{ col_name }}.png">
         </div>
         {% endif %}
+        
     </div>
 
     <script>

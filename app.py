@@ -2,6 +2,7 @@ import io
 import os
 import shutil
 import base64
+import loggingl
 from flask.helpers import url_for
 import numpy as np
 import pandas as pd
@@ -14,6 +15,9 @@ from seaborn import heatmap, histplot, despine, relplot, catplot, countplot
 matplotlib.use('Agg')
 
 app = Flask(__name__)
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
 
 global data_df
 data_df = {}

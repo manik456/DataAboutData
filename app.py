@@ -2,7 +2,7 @@ import io
 import os
 import shutil
 import base64
-import loggingl
+import logging
 from flask.helpers import url_for
 import numpy as np
 import pandas as pd

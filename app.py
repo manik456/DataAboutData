@@ -187,6 +187,11 @@ def plot_custom():
 
     plt.close()
 
+    try:
+        df = data_df['data']
+    except:
+        return redirect(url_for('upload_file'))
+
     cols_wo_unq = [i for i in data_df['df_cols'] if i not in data_df['u_col']]
     rel_plot_types = ['box','strip','scatter']
     dist_plot_types = ['box','violin','boxen','count','hist']

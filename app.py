@@ -2,8 +2,6 @@ import io
 import os
 import shutil
 import base64
-import sys
-import logging
 from flask.helpers import url_for
 import numpy as np
 import pandas as pd
@@ -16,9 +14,6 @@ from seaborn import heatmap, histplot, despine, relplot, catplot, countplot
 matplotlib.use('Agg')
 
 app = Flask(__name__)
-
-app.logger.addHandler(logging.StreamHandler(sys.stdout))
-app.logger.setLevel(logging.ERROR)
 
 global data_df
 data_df = {}
@@ -59,7 +54,9 @@ def upload_file():
             error_msg = "Upload only *CSV files"
             return render_template('index.html', error_msg=error_msg,flag = False)
         
-        up_df = pd.read_csv(file)
+        file.save('./upload.csv')
+        
+        up_df = pd.read_csv('./upload.csv')
         #print(up_df.head())
         data_df['data'] = up_df
         
@@ -206,8 +203,9 @@ def plot_custom():
         df = data_df['data']
         fig_data = 1
         details = request.form.to_dict(flat=False)
-        #print('---------------->')
-        #print(details)
+        print('---------------->')
+        print(details)
+        print(request.form['plot_type'])
         
         if request.form['plot_type'] == "rel_plot":
             x_col = request.form['x_col']
@@ -256,5 +254,6 @@ if __name__ == '__main__':
     app.run(debug=True)
     try:
         shutil.rmtree('./static/temp')
+        os.remove('./upload.csv')
     except:
         pass

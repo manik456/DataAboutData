@@ -2,6 +2,8 @@ import io
 import os
 import shutil
 import base64
+import sys
+import logging
 from flask.helpers import url_for
 import numpy as np
 import pandas as pd
@@ -15,6 +17,10 @@ matplotlib.use('Agg')
 
 app = Flask(__name__)
 
+# for displaying error in heroku console
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
+
 global data_df
 data_df = {}
 
@@ -22,8 +28,6 @@ try:
     os.mkdir('./static/temp/')
 except:
     pass
-    
-
 
 def file_is_csv(filename):
     if filename[-3:] == 'csv':
@@ -36,9 +40,9 @@ def upload_file():
 
     if request.method == 'POST':
 
-        print('-------------->')
-        print(request.files)
-        print(request.files['file'])
+        #print('-------------->')
+        #print(request.files)
+        #print(request.files['file'])
 
         if 'file' not in request.files :        # No file selected
             error_msg = "Choose a File"
@@ -67,10 +71,12 @@ def upload_file():
 @app.route('/Analysis')
 def Analysis():
 
-    try:
+    df = data_df['data']
+
+    '''try:
         df = data_df['data']
     except KeyError:
-        return redirect(url_for('upload_file'))
+        return redirect(url_for('upload_file'))'''
 
     df_cols, df_dim, cat_col, num_col, mis_val, mis_detail, u_col, cols_data = get_data(df)     #getting all analyzed data
     
@@ -188,11 +194,12 @@ def plot_corr(df,num_col):
 def plot_custom():
 
     plt.close()
+    df = data_df['data']
 
-    try:
+    '''try:
         df = data_df['data']
     except:
-        return redirect(url_for('upload_file'))
+        return redirect(url_for('upload_file'))'''
 
     cols_wo_unq = [i for i in data_df['df_cols'] if i not in data_df['u_col']]
     rel_plot_types = ['box','strip','scatter']
@@ -203,9 +210,9 @@ def plot_custom():
         df = data_df['data']
         fig_data = 1
         details = request.form.to_dict(flat=False)
-        print('---------------->')
-        print(details)
-        print(request.form['plot_type'])
+        #print('---------------->')
+        #print(details)
+        #print(request.form['plot_type'])
         
         if request.form['plot_type'] == "rel_plot":
             x_col = request.form['x_col']

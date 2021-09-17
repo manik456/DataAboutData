@@ -1,4 +1,5 @@
 import io
+import time
 import os
 import shutil
 import base64
@@ -63,6 +64,8 @@ def upload_file():
         up_df = pd.read_csv('./upload.csv')
         #print(up_df.head())
         data_df['data'] = up_df
+
+        time.sleep(2)
         
         return render_template('index.html', error_msg='',flag = True)
     return render_template('index.html', error_msg='',flag = False)
@@ -71,12 +74,10 @@ def upload_file():
 @app.route('/Analysis')
 def Analysis():
 
-    df = data_df['data']
-
-    '''try:
+    try:
         df = data_df['data']
     except KeyError:
-        return redirect(url_for('upload_file'))'''
+        return redirect(url_for('upload_file'))
 
     df_cols, df_dim, cat_col, num_col, mis_val, mis_detail, u_col, cols_data = get_data(df)     #getting all analyzed data
     
@@ -194,12 +195,11 @@ def plot_corr(df,num_col):
 def plot_custom():
 
     plt.close()
-    df = data_df['data']
 
-    '''try:
+    try:
         df = data_df['data']
     except:
-        return redirect(url_for('upload_file'))'''
+        return redirect(url_for('upload_file'))
 
     cols_wo_unq = [i for i in data_df['df_cols'] if i not in data_df['u_col']]
     rel_plot_types = ['box','strip','scatter']

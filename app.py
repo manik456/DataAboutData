@@ -261,6 +261,6 @@ if __name__ == '__main__':
     app.run(debug=True)
     try:
         shutil.rmtree('./static/temp')
-        os.remove('./upload.csv')
+        #os.remove('./upload.csv')     # no need to remove file, contents willl get replaced
     except:
         pass

@@ -61,7 +61,7 @@ def upload_file():
         
         file.save('./upload.csv')
         
-        up_df = pd.read_csv('./upload.csv')
+        up_df = pd.read_csv('./upload.csv',encoding_errors='replace')   # replace special chars with ?
         #print(up_df.head())
         data_df['data'] = up_df
 
